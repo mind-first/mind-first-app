@@ -138,10 +138,10 @@ angular.module('starter')
             // Set location=yes instead of location=no temporarily to try to diagnose intermittent white screen on iOS
             var ref = window.open(url,'_blank', 'location=yes,toolbar=yes');
 
-            $timeout(function () {
-                console.log('nonNativeMobileLogin: Automatically closing inAppBrowser auth window after 60 seconds.');
-                ref.close();
-            }, 60000);
+            //$timeout(function () {
+            //    console.log('nonNativeMobileLogin: Automatically closing inAppBrowser auth window after 60 seconds.');
+            //    ref.close();
+            //}, 60000);
 
             console.log('nonNativeMobileLogin: listen to its event when the page changes');
             ref.addEventListener('loadstart', function(event) {

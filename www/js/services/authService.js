@@ -15,6 +15,9 @@ angular.module('starter')
 
 			generateV1OAuthUrl: function(register) {
 				var url = $rootScope.qmApiUrl + "/api/oauth2/authorize?";
+				if($rootScope.isWindows){
+					url = "ms-appx-web://app.quantimo.do/api/oauth2/authorize?"
+				}
 				// add params
 				url += "response_type=code";
 				url += "&client_id=" + utilsService.getClientId();

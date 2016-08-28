@@ -109,7 +109,7 @@ angular.module('starter')
             if (typeof ionic !== "undefined") {
                 var currentPlatform = ionic.Platform.platform();
                 if(currentPlatform.indexOf('win') > -1){
-                    return 'ms-appx-web';
+                    //return 'ms-appx-web';
                 }
             }
             return 'https';
@@ -123,7 +123,7 @@ angular.module('starter')
                 config.appSettings.qmApiHostName = "app.quantimo.do";
             }
             if ($rootScope.isWindows) {
-                return "ms-appx-web://" + config.appSettings.qmApiHostName;
+                //return "ms-appx-web://" + config.appSettings.qmApiHostName;
             }
             return "https://" + config.appSettings.qmApiHostName;
         };
