@@ -10,13 +10,13 @@ angular.module('starter')
 		var measurementService = {
 
             getAllLocalMeasurements : function(){
-                var primaryOutcomeMeasurements = localStorageService.getItemAsObject('allMeasurements');
+                var primaryOutcomeMeasurements = localStorageService.getItemAsObject('primaryOutcomeVariableMeasurements');
                 if(!primaryOutcomeMeasurements) {
                     primaryOutcomeMeasurements = [];
                 }
-                var measurementsQueue = localStorageService.getItemAsObject('measurementsQueue');
-                if(measurementsQueue){
-                    primaryOutcomeMeasurements = primaryOutcomeMeasurements.concat(measurementsQueue);
+                var primaryOutcomeVariableMeasurementsQueue = localStorageService.getItemAsObject('primaryOutcomeVariableMeasurementsQueue');
+                if(primaryOutcomeVariableMeasurementsQueue){
+                    primaryOutcomeMeasurements = primaryOutcomeMeasurements.concat(primaryOutcomeVariableMeasurementsQueue);
                 }
                 primaryOutcomeMeasurements = primaryOutcomeMeasurements.sort(function(a,b){
                     if(a.startTimeEpoch < b.startTimeEpoch){
@@ -33,12 +33,12 @@ angular.module('starter')
                 var deferred = $q.defer();
                 isSyncing = true;
 
-                $rootScope.lastSyncTime = localStorageService.getItemSync('lastSyncTime');
-                if (!$rootScope.lastSyncTime) {
-                	$rootScope.lastSyncTime = 0;
+                $rootScope.lastPrimaryOutcomeVariableMeasurementsSyncTime = localStorageService.getItemSync('lastPrimaryOutcomeVariableMeasurementsSyncTime');
+                if (!$rootScope.lastPrimaryOutcomeVariableMeasurementsSyncTime) {
+                	$rootScope.lastPrimaryOutcomeVariableMeasurementsSyncTime = 0;
                 }
                 var nowDate = new Date();
-                var lastSyncDate = new Date($rootScope.lastSyncTime);
+                var lastSyncDate = new Date($rootScope.lastPrimaryOutcomeVariableMeasurementsSyncTime);
                 var milliSecondsSinceLastSync = nowDate - lastSyncDate;
                 /*
                 if(milliSecondsSinceLastSync < 5 * 60 * 1000){
@@ -50,10 +50,10 @@ angular.module('starter')
 
                 // send request
                 var params;
-                var lastSyncTimeMinusFifteenMinutes = moment($rootScope.lastSyncTime).subtract(15, 'minutes').format("YYYY-MM-DDTHH:mm:ss");
+                var lastPrimaryOutcomeVariableMeasurementsSyncTimeMinusFifteenMinutes = moment($rootScope.lastPrimaryOutcomeVariableMeasurementsSyncTime).subtract(15, 'minutes').format("YYYY-MM-DDTHH:mm:ss");
                 params = {
                     variableName : config.appSettings.primaryOutcomeVariableDetails.name,
-                    'updatedAt':'(ge)'+ lastSyncTimeMinusFifteenMinutes ,
+                    'updatedAt':'(ge)'+ lastPrimaryOutcomeVariableMeasurementsSyncTimeMinusFifteenMinutes ,
                     sort : '-startTimeEpoch',
                     limit:200,
                     offset:0
@@ -67,15 +67,15 @@ angular.module('starter')
 
                 var getPrimaryOutcomeVariableMeasurements = function(params) {
                     QuantiModo.getV1Measurements(params, function(response){
-                        // Do the stuff with adding to allMeasurements
+                        // Do the stuff with adding to primaryOutcomeVariableMeasurements
                         if (response.length > 0 && response.length <= 200) {
                             // Update local data
-                            var allMeasurements;
-                            localStorageService.getItem('allMeasurements',function(allMeasurements){
-                                allMeasurements = allMeasurements ? JSON.parse(allMeasurements) : [];
+                            var primaryOutcomeVariableMeasurements;
+                            localStorageService.getItem('primaryOutcomeVariableMeasurements',function(primaryOutcomeVariableMeasurements){
+                                primaryOutcomeVariableMeasurements = primaryOutcomeVariableMeasurements ? JSON.parse(primaryOutcomeVariableMeasurements) : [];
 
                                 var filteredStoredMeasurements = [];
-                                allMeasurements.forEach(function(storedMeasurement) {
+                                primaryOutcomeVariableMeasurements.forEach(function(storedMeasurement) {
                                     var found = false;
                                     var i = 0;
                                     while (!found && i < response.length) {
@@ -90,10 +90,10 @@ angular.module('starter')
                                         filteredStoredMeasurements.push(storedMeasurement);
                                     }
                                 });
-                                allMeasurements = filteredStoredMeasurements.concat(response);
+                                primaryOutcomeVariableMeasurements = filteredStoredMeasurements.concat(response);
 
                                 var s  = 9999999999999;
-                                allMeasurements.forEach(function(x){
+                                primaryOutcomeVariableMeasurements.forEach(function(x){
                                     if(!x.startTimeEpoch){
                                         x.startTimeEpoch = x.timestamp;
                                     }
@@ -107,24 +107,24 @@ angular.module('starter')
                                 // if user restarts the app or refreshes the page.
                                 console.debug("getPrimaryOutcomeVariableMeasurements is calling measurementService.setDates");
                                 //measurementService.setDates(new Date().getTime(),s*1000);
-                                //console.debug("getPrimaryOutcomeVariableMeasurements: allMeasurements length is " + allMeasurements.length);
-                                //console.debug("getPrimaryOutcomeVariableMeasurements:  Setting allMeasurements to: ", allMeasurements);
-                                localStorageService.setItem('allMeasurements', JSON.stringify(allMeasurements));
+                                //console.debug("getPrimaryOutcomeVariableMeasurements: primaryOutcomeVariableMeasurements length is " + primaryOutcomeVariableMeasurements.length);
+                                //console.debug("getPrimaryOutcomeVariableMeasurements:  Setting primaryOutcomeVariableMeasurements to: ", primaryOutcomeVariableMeasurements);
+                                localStorageService.setItem('primaryOutcomeVariableMeasurements', JSON.stringify(primaryOutcomeVariableMeasurements));
                                 console.debug("getPrimaryOutcomeVariableMeasurements broadcasting to update charts");
                                 $rootScope.$broadcast('updateCharts');
                             });
                         }
 
                         if (response.length < 200 || params.offset > 1000) {
-                            $rootScope.lastSyncTime = moment.utc().format('YYYY-MM-DDTHH:mm:ss');
-                            localStorageService.setItem('lastSyncTime', $rootScope.lastSyncTime);
-                            console.debug("Measurement sync completed and lastSyncTime set to " + $rootScope.lastSyncTime);
+                            $rootScope.lastPrimaryOutcomeVariableMeasurementsSyncTime = moment.utc().format('YYYY-MM-DDTHH:mm:ss');
+                            localStorageService.setItem('lastPrimaryOutcomeVariableMeasurementsSyncTime', $rootScope.lastPrimaryOutcomeVariableMeasurementsSyncTime);
+                            console.debug("Measurement sync completed and lastPrimaryOutcomeVariableMeasurementsSyncTime set to " + $rootScope.lastPrimaryOutcomeVariableMeasurementsSyncTime);
                             deferred.resolve(response);
                         } else if (response.length === 200 && params.offset < 1001) {
                             // Keep querying
                             params = {
                                 variableName: config.appSettings.primaryOutcomeVariableDetails.name,
-                                'updatedAt':'(ge)'+ lastSyncTimeMinusFifteenMinutes ,
+                                'updatedAt':'(ge)'+ lastPrimaryOutcomeVariableMeasurementsSyncTimeMinusFifteenMinutes ,
                                 sort : '-startTimeEpoch',
                                 limit: 200,
                                 offset: params.offset + 200
@@ -156,9 +156,9 @@ angular.module('starter')
                     return defer.promise;
                 }
 
-                localStorageService.getItem('measurementsQueue',function(measurementsQueue) {
+                localStorageService.getItem('primaryOutcomeVariableMeasurementsQueue',function(primaryOutcomeVariableMeasurementsQueue) {
 
-                    var measurementObjects = JSON.parse(measurementsQueue);
+                    var measurementObjects = JSON.parse(primaryOutcomeVariableMeasurementsQueue);
 
                     if(!measurementObjects || measurementObjects.length < 1){
                         console.debug('No measurements to sync!');
@@ -180,7 +180,7 @@ angular.module('starter')
                         console.debug('Syncing measurements to server: ' + JSON.stringify(measurementObjects));
 
                         QuantiModo.postMeasurementsV2(measurements, function (response) {
-                            localStorageService.setItem('measurementsQueue', JSON.stringify([]));
+                            localStorageService.setItem('primaryOutcomeVariableMeasurementsQueue', JSON.stringify([]));
                             measurementService.getMeasurements().then(function() {
                                 defer.resolve();
                                 console.debug("QuantiModo.postMeasurementsV2 success: " + JSON.stringify(response));
@@ -267,13 +267,13 @@ angular.module('starter')
 
             // used when adding a new measurement from record measurement OR updating a measurement through the queue
             addToMeasurementsQueue : function(measurementObject){
-                console.debug("added to measurementsQueue: id = " + measurementObject.id);
+                console.debug("added to primaryOutcomeVariableMeasurementsQueue: id = " + measurementObject.id);
                 var deferred = $q.defer();
 
-                localStorageService.getItem('measurementsQueue',function(measurementsQueue) {
-                    measurementsQueue = measurementsQueue ? JSON.parse(measurementsQueue) : [];
+                localStorageService.getItem('primaryOutcomeVariableMeasurementsQueue',function(primaryOutcomeVariableMeasurementsQueue) {
+                    primaryOutcomeVariableMeasurementsQueue = primaryOutcomeVariableMeasurementsQueue ? JSON.parse(primaryOutcomeVariableMeasurementsQueue) : [];
                     // add to queue
-                    measurementsQueue.push({
+                    primaryOutcomeVariableMeasurementsQueue.push({
                         id: measurementObject.id,
                         variable: config.appSettings.primaryOutcomeVariableDetails.name,
                         variableName: config.appSettings.primaryOutcomeVariableDetails.name,
@@ -288,7 +288,7 @@ angular.module('starter')
                         location: $rootScope.lastLocationNameAndAddress
                     });
                     //resave queue
-                    localStorageService.setItem('measurementsQueue', JSON.stringify(measurementsQueue));
+                    localStorageService.setItem('primaryOutcomeVariableMeasurementsQueue', JSON.stringify(primaryOutcomeVariableMeasurementsQueue));
                 });
                 return deferred.promise;
             },
@@ -307,25 +307,25 @@ angular.module('starter')
                 }
 
                 if (measurementInfo.variableName === config.appSettings.primaryOutcomeVariableDetails.name) {
-                    // Primary outcome variable - update through measurementsQueue
+                    // Primary outcome variable - update through primaryOutcomeVariableMeasurementsQueue
                     var found = false;
                     if (measurementInfo.prevStartTimeEpoch) {
-                        localStorageService.getItemAsObject('measurementsQueue',function(measurementsQueue) {
+                        localStorageService.getItemAsObject('primaryOutcomeVariableMeasurementsQueue',function(primaryOutcomeVariableMeasurementsQueue) {
                             var i = 0;
-                            while (!found && i < measurementsQueue.length) {
-                                if (measurementsQueue[i].startTimeEpoch === measurementInfo.prevStartTimeEpoch) {
+                            while (!found && i < primaryOutcomeVariableMeasurementsQueue.length) {
+                                if (primaryOutcomeVariableMeasurementsQueue[i].startTimeEpoch === measurementInfo.prevStartTimeEpoch) {
                                     found = true;
-                                    measurementsQueue[i].startTimeEpoch = measurementInfo.startTimeEpoch;
-                                    measurementsQueue[i].value =  measurementInfo.value;
-                                    measurementsQueue[i].note = measurementInfo.note;
+                                    primaryOutcomeVariableMeasurementsQueue[i].startTimeEpoch = measurementInfo.startTimeEpoch;
+                                    primaryOutcomeVariableMeasurementsQueue[i].value =  measurementInfo.value;
+                                    primaryOutcomeVariableMeasurementsQueue[i].note = measurementInfo.note;
                                 }
                             }
-                            localStorageService.setItem('measurementsQueue',JSON.stringify(measurementsQueue));
+                            localStorageService.setItem('primaryOutcomeVariableMeasurementsQueue',JSON.stringify(primaryOutcomeVariableMeasurementsQueue));
                         });
 
                     } else if(measurementInfo.id) {
                         var newAllMeasurements = [];
-                        localStorageService.getItem('allMeasurements',function(oldAllMeasurements) {
+                        localStorageService.getItem('primaryOutcomeVariableMeasurements',function(oldAllMeasurements) {
                         	oldAllMeasurements = oldAllMeasurements ? JSON.parse(oldAllMeasurements) : [];
                             oldAllMeasurements.forEach(function (storedMeasurement) {
                                 // look for edited measurement based on IDs
@@ -334,15 +334,15 @@ angular.module('starter')
                                     newAllMeasurements.push(storedMeasurement);
                                 }
                                 else {
-                                    console.debug("edited measurement found in allMeasurements");
+                                    console.debug("edited measurement found in primaryOutcomeVariableMeasurements");
                                     // don't copy
                                     found = true;
                                 }
                             });
                         });
                         console.debug("postTrackingMeasurement: newAllMeasurements length is " + newAllMeasurements.length);
-                        //console.debug("postTrackingMeasurement:  Setting allMeasurements to: ", newAllMeasurements);
-                        localStorageService.setItem('allMeasurements', JSON.stringify(newAllMeasurements));
+                        //console.debug("postTrackingMeasurement:  Setting primaryOutcomeVariableMeasurements to: ", newAllMeasurements);
+                        localStorageService.setItem('primaryOutcomeVariableMeasurements', JSON.stringify(newAllMeasurements));
                         var editedMeasurement = {
                             id: measurementInfo.id,
                             variableName: measurementInfo.variableName,
@@ -536,7 +536,7 @@ angular.module('starter')
 
             deleteMeasurementFromLocalStorage : function(measurement) {
                 var deferred = $q.defer();
-                localStorageService.deleteElementOfItemById('allMeasurements', measurement.id).then(function(){
+                localStorageService.deleteElementOfItemById('primaryOutcomeVariableMeasurements', measurement.id).then(function(){
                     deferred.resolve();
                 });
                 localStorageService.deleteElementOfItemByProperty('measurementQueue', 'startTimeEpoch',

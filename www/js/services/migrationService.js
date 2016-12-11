@@ -13,15 +13,15 @@ angular.module('starter')
                 }
                 else if (storedVersion < 1489){
                     console.debug('Running migration version version1489...');
-                    localStorageService.getItem('allMeasurements',function(allMeasurements) {
+                    localStorageService.getItem('primaryOutcomeVariableMeasurements',function(primaryOutcomeVariableMeasurements) {
                         if (typeof Bugsnag !== "undefined") {
                             Bugsnag.user = $rootScope.user;
-                            Bugsnag.notify('Backing up user measurements', allMeasurements, {}, "error");
+                            Bugsnag.notify('Backing up user measurements', primaryOutcomeVariableMeasurements, {}, "error");
                         }
-                        localStorageService.setItem('allMeasurementsBackup1489', allMeasurements);
+                        localStorageService.setItem('primaryOutcomeVariableMeasurementsBackup1489', primaryOutcomeVariableMeasurements);
                     });
-                    localStorageService.deleteItem('allMeasurements');
-                    localStorageService.deleteItem('lastSyncTime');
+                    localStorageService.deleteItem('primaryOutcomeVariableMeasurements');
+                    localStorageService.deleteItem('lastPrimaryOutcomeVariableMeasurementsSyncTime');
                     measurementService.syncPrimaryOutcomeVariableMeasurements().then(function(){
                         console.debug("Measurement sync complete!");
                     });

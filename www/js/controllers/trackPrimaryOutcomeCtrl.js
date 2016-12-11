@@ -27,7 +27,7 @@ angular.module('starter')
                 });
             }
 
-            //  add to measurementsQueue
+            //  add to primaryOutcomeVariableMeasurementsQueue
             var primaryOutcomeMeasurement = measurementService.createPrimaryOutcomeMeasurement(numericRatingValue);
             measurementService.addToMeasurementsQueue(primaryOutcomeMeasurement);
             updateCharts();
@@ -58,13 +58,13 @@ angular.module('starter')
         };
 
         var updateCharts = function(){
-            $scope.state.primaryOutcomeMeasurements = localStorageService.getItemAsObject('allMeasurements');
-            var measurementsQueue = localStorageService.getItemAsObject('measurementsQueue');
+            $scope.state.primaryOutcomeMeasurements = localStorageService.getItemAsObject('primaryOutcomeVariableMeasurements');
+            var primaryOutcomeVariableMeasurementsQueue = localStorageService.getItemAsObject('primaryOutcomeVariableMeasurementsQueue');
             if(!$scope.state.primaryOutcomeMeasurements){
                 $scope.state.primaryOutcomeMeasurements = [];
             }
-            if(measurementsQueue){
-                $scope.state.primaryOutcomeMeasurements =  $scope.state.primaryOutcomeMeasurements.concat(measurementsQueue);
+            if(primaryOutcomeVariableMeasurementsQueue){
+                $scope.state.primaryOutcomeMeasurements =  $scope.state.primaryOutcomeMeasurements.concat(primaryOutcomeVariableMeasurementsQueue);
             }
             if( $scope.state.primaryOutcomeMeasurements) {
                 $scope.hourlyChartConfig =

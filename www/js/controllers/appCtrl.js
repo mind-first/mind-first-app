@@ -1111,10 +1111,10 @@ angular.module('starter')
             variableService.deleteAllMeasurementsForVariable($rootScope.variableObject.id).then(function() {
                 // If primaryOutcomeVariable, delete local storage measurements
                 if ($rootScope.variableName === config.appSettings.primaryOutcomeVariableDetails.name) {
-                    localStorageService.setItem('allMeasurements',[]);
-                    localStorageService.setItem('measurementsQueue',[]);
+                    localStorageService.setItem('primaryOutcomeVariableMeasurements',[]);
+                    localStorageService.setItem('primaryOutcomeVariableMeasurementsQueue',[]);
                     localStorageService.setItem('averagePrimaryOutcomeVariableValue',0);
-                    localStorageService.setItem('lastSyncTime',0);
+                    localStorageService.setItem('lastPrimaryOutcomeVariableMeasurementsSyncTime',0);
                 }
                 $ionicLoading.hide();
                 $state.go(config.appSettings.defaultState);

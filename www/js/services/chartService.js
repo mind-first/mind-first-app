@@ -5,7 +5,7 @@ angular.module('starter')
 
 		chartService.getWeekdayChartConfigForPrimaryOutcome = function () {
 			var deferred = $q.defer();
-			deferred.resolve(chartService.processDataAndConfigureWeekdayChart(localStorageService.getItemAsObject('allMeasurements'),
+			deferred.resolve(chartService.processDataAndConfigureWeekdayChart(localStorageService.getItemAsObject('primaryOutcomeVariableMeasurements'),
 				config.appSettings.primaryOutcomeVariableDetails));
 			return deferred.promise;
 		};
