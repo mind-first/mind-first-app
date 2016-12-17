@@ -315,6 +315,9 @@ angular.module('starter',
 
             }
         }
+        if($rootScope.urlParameters.doNotSendToLogin){
+            $rootScope.doNotSendToLogin = true;
+        }
     };
 
     $rootScope.getAllUrlParams();

@@ -30,7 +30,7 @@ angular.module('starter')
             }
 
             if(status === 401){
-                if(doNotSendToLogin){
+                if(doNotSendToLogin || $rootScope.doNotSendToLogin){
                     return;
                 } else {
                     console.warn('QuantiModo.errorHandler: Sending to login because we got 401 with request ' +
@@ -414,7 +414,7 @@ angular.module('starter')
         };
 
         // post new correlation for user
-        QuantiModo.postCorrelation = function(correlationSet, successHandler ,errorHandler){
+        QuantiModo.postCorrelation = function(correlationSet, successHandler, errorHandler){
             QuantiModo.post('api/v1/correlations',
                 ['causeVariableName', 'effectVariableName', 'correlation', 'vote'],
                 correlationSet,
