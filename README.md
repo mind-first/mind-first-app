@@ -1,16 +1,3 @@
-# QuantiModo Ionic App
-
-A generic app that can be easily configured to help the user track and optimize any given outcome variable.
--------
-
-- [MoodiModo for iOS](https://itunes.apple.com/us/app/moodimodo/id1046797567?ls=1&mt=8)
-- [QuantiModo for iOS](https://itunes.apple.com/us/app/quantimodo-life-tracker/id1115037060?mt=8)
-- [MoodiModo Chrome Extension](https://Chrome.google.com/webstore/detail/moodimodo-mood-tracking-e/lncgjbhijecjdbdgeigfodmiimpmlelg)
-- [QuantiModo Chrome Extension ](https://Chrome.google.com/webstore/detail/quantimodo-life-tracking/jioloifallegdkgjklafkkbniianjbgi)
-- [QuantiModo for Android](https://play.google.com/store/apps/details?id=com.quantimodo.quantimodo)
-- [MoodiModo for Android](https://play.google.com/store/apps/details?id=com.moodimodo)
-
-
 # 5-Minute Quick Start
 1. Fork this repository.
 1. Choose a name for your app.  
@@ -40,8 +27,7 @@ and many other features.)
 1. Need help?  Please [create an issue](https://github.com/QuantiModo/quantimodo-android-chrome-ios-web-app/issues) 
 or contact us at [help.quantimo.do](http://help.quantimo.do). 
 
-## QuantiModo API
-For more info about the types of data you can store and get from the QuantiModo API, try out our [Interactive API Explorer](https://app.quantimo.do/api/v2/account/api-explorer)
+## [Interactive API Explorer](https://app.quantimo.do/api/v2/account/api-explorer)
 
 ## One Click Deploy
 When you're ready to share your app with the world, you can instantly deploy your app to Heroku. 
