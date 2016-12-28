@@ -1,7 +1,7 @@
 # 5-Minute Quick Start
 1. Fork this repository.
 1. Choose a name for your app.  
-1. Create your free account and app in the [QuantiModo Developer Portal](https://app.quantimo.do/api/v2/apps) to get a 
+1. Create your free account and app in the [Developer Portal](https://app.quantimo.do/api/v2/apps) to get a 
 `client id` and `client secret`.
 1. Open [www/js/apps.js](www/js/apps.js#L10) 
 and replace `default` with your app's name as the `defaultApp`.  (For instance, if your app 
@@ -12,7 +12,7 @@ and `YourAppDisplayNameHere` with your app name within the file.
 and many other features.)
 1. Copy and rename `www/private_configs/yourlowercaseappnamehere.config.js` with your app name. Replace 
     `your_quantimodo_client_id_here` and `your_quantimodo_client_secret_here` with the credentials you got in the 
-    [QuantiModo Developer Portal](https://app.quantimo.do/api/v2/apps). 
+    [Developer Portal](https://app.quantimo.do/api/v2/apps). 
 1. Copy and rename `config-template.xml` to `config.xml` in the root of this repository.  Replace `yourlowercaseappnamehere` and `YourAppDisplayNameHere`.
 1. Install [Node.js](http://nodejs.org/).  (Windows Developers: We recommend [Visual Studio Community]
 (https://www.visualstudio.com/cordova-vs?wt.mc_id=o~display~ionic~dn948185), which comes with everything you need!)
@@ -79,13 +79,7 @@ The main contents of the App are in the `www` folder. The structure is:
 2. www/configs/{{appname}}.js
 3. www/private_configs/{{appname}}.config.js
 
-## Contribute
-
-We love pull requests and would be very grateful if you'd help us abolish suffering with data!  
-
-I recommend using 
-[SourceTree and the Gitflow model] (https://github.com/GSoft-SharePoint/Dynamite/wiki/Getting-started-with-SourceTree,-Git-and-git-flow) 
-for development.
+## [Contribute](docs/contributing.md)
 
 ## Screenshots 
 
